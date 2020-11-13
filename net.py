@@ -10,11 +10,15 @@ class Art2():
         self.d = d
         self.c = c
         self.rho = rho
-        
+
     def update_weights(self, x, j):
         # dont get the (self.d - 1) part
         self.Wbu[:,j] += self.d * (x + (self.d - 1) * self.Wbu[:,j]) 
         self.Wtd[j,:] += self.d * (x + (self.d - 1) * self.Wtd[j,:])
+
+        # normalise?
+        # self.Wbu[:,j] = self.normalise(self.Wbu[:,j])
+        # self.Wtd[j,:] = self.normalise(self.Wtd[j,:])
 
     def update_L1(self, x):
         self.L1 = x
