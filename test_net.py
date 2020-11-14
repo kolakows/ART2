@@ -15,7 +15,7 @@ L2_size = 10
 # art2.train(img[:10000], epochs = 1)
 
 net = Art2Network(L1_size, L2_size, 0.8)
-net.process_points(img[:, 10000])
+net.process_points(img[:10000])
 
 clusters = []
 plt.figure()
