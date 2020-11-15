@@ -25,18 +25,19 @@ class Art2Network():
         self.nbOfClasses = 0
         self.iterationCounter = 0
 
-    def process_points(self, points):
+    def process_points(self, points, learn_mode):
         self.log_description()
+        self.iterationCounter = 0
         clusters = []
         for s in points:
             self.iterationCounter += 1
             print("Processing " + str(self.iterationCounter) + "/" + str(len(points)) + " Clusters count: " + str(self.nbOfClasses))
-            clusterid = self.process_point(s)
+            clusterid = self.process_point(s, learn_mode)
             clusters += [clusterid]
         return clusters
 
-    def process_point(self, S):
-        clusterid = self.process(S)
+    def process_point(self, S, learn_mode):
+        clusterid = self.process(S, learn_mode)
         return clusterid
 
     def f1_update_U(self):
@@ -127,14 +128,14 @@ class Art2Network():
             else:
                 Y[activeNeuronIdx] = nan
     
-    def process(self, S):
+    def process(self, S, learn_mode):
         activeNeuronIdx = self.find_class(S)
 
         if (activeNeuronIdx == self.nbOfClasses):
             activeNeuronIdx = self.nbOfClasses
             self.nbOfClasses += 1             
-
-        self.learning(S, activeNeuronIdx)
+        if learn_mode:
+            self.learning(S, activeNeuronIdx)
         return activeNeuronIdx
     
     def get_cluster_exemplar(self, j):
