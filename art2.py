@@ -9,7 +9,7 @@ class Art2Network():
         self.b = 10
         self.c = 0.1
         self.d = 0.9
-        self.e = 0
+        self.e = 1e-12
         self.learningLength = 1 # 1 for slow learning
         self.learningRate = 0.6
         self.dataDim = dataDimensions

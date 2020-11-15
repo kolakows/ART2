@@ -8,7 +8,7 @@ import numpy as np
 
 def simple_test_cube(directory_path, train_split = 0.9):
     data = pd.read_csv(f'{directory_path}/cube.csv').to_numpy()
-    #TODO SHUFFLE DATA!
+    np.random.shuffle(data)
     test_count = int(train_split * len(data))
 
     x_train = data[:test_count, :-1]
@@ -24,16 +24,15 @@ def simple_test_cube(directory_path, train_split = 0.9):
 
     net = Art2Network(L1_size, L2_size, 0.9)
     y_train_pred = net.process_points(x_train, True)
-
     y_test_pred = net.process_points(x_test, False)
+
     print(f'Train accuracy: {cluster_acc(y_train, y_train_pred)}')
     print(f'Test accuracy: {cluster_acc(y_test, y_test_pred)}')
     show_confusion_matrix(y_test, y_test_pred)
 
 def simple_test_cube_not_matching(directory_path):
     data = pd.read_csv(f'{directory_path}/cube.csv').to_numpy()
-    data_not_matching = pd.read_csv(f'{directory_path}/cube_not_matching.csv').to_numpy()
-    #TODO SHUFFLE DATA!
+    data_not_matching = pd.read_csv(f'{directory_path}/cube-notmatching.csv').to_numpy()
 
     x_train = data[:, :-1]
     y_train = data[:, -1]
@@ -56,7 +55,7 @@ def simple_test_cube_not_matching(directory_path):
 
 def simple_test_hexagon(directory_path, train_split = 0.9):
     data = pd.read_csv(f'{directory_path}/hexagon.csv').to_numpy()
-    #TODO SHUFFLE DATA!
+    np.random.shuffle(data)
     test_count = int(train_split * len(data))
 
     x_train = data[:test_count, :-1]
@@ -100,7 +99,8 @@ def test_mnist(directory_path, train_split = 0.9):
     y_train_pred = net.process_points(x_train, True)
     y_test_pred = net.process_points(x_test, False)
 
-    print(f'Accuracy: {cluster_acc(y_train, y_train_pred)}')
+    print(f'Train accuracy: {cluster_acc(y_train, y_train_pred)}')
+    print(f'Test accuracy: {cluster_acc(y_test, y_test_pred)}')
     show_confusion_matrix(y_test, y_test_pred)
 
     clusters = []

@@ -6,8 +6,9 @@ mnist_path = '../mnist'
 human_path = '../UCI_HAR_Dataset'
 
 #simple_test_cube(simple_data_path, 0.9)
+#simple_test_cube_not_matching(simple_data_path)
 #simple_test_hexagon(simple_data_path, 0.9)
-#test_mnist(mnist_path)
-test_mnist_subset(mnist_path)
+test_mnist(mnist_path)
+#test_mnist_subset(mnist_path)
 #test_human(human_path)
 
