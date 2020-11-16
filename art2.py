@@ -9,7 +9,7 @@ class Art2Network():
         self.b = 10
         self.c = 0.1
         self.d = 0.9
-        self.e = 0
+        self.e = 1e-12
         self.learningLength = 1 # 1 for slow learning
         self.learningRate = 0.6
         self.dataDim = dataDimensions
@@ -65,7 +65,7 @@ class Art2Network():
         self.f1_V = self.noise_suppr(self.f1_X) + [qi * self.b for qi in self.noise_suppr(self.f1_Q)]  
 
     def noise_suppr(self, X):
-        return np.array([(x if x >= self.theta else 0) for x in X])
+        return np.array([(x if abs(x) >= self.theta else 0) for x in X])
 
     def f1_init(self, S):
         self.f1_U = np.array([0] * len(S))
@@ -99,7 +99,7 @@ class Art2Network():
 
     def calc_vigilance(self, activeNeuronIdx):
         self.f1_update_U()
-        self.f1_update_P(activeNeuronIdx)   
+        self.f1_update_P(activeNeuronIdx)  
         R = (self.f1_U + self.f1_P * self.c) / (self.e + norm(self.f1_U) + self.c * norm(self.f1_P))
         return norm(R)
 
