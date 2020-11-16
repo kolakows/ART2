@@ -2,7 +2,7 @@ from mnist import MNIST
 from net import Art2
 from art2 import Art2Network 
 import matplotlib.pyplot as plt
-from utils import cluster_acc, show_confusion_matrix
+from utils import cluster_acc, show_confusion_matrix, show_cms
 import pandas as pd
 import numpy as np
 
@@ -113,9 +113,12 @@ def test_mnist(directory_path, train_split = 0.9):
         axarr[i].imshow(cluster.reshape(28,28))
     plt.show()
 
-def test_mnist_subset(directory_path, train_split = 0.9):
+def test_mnist_subset(directory_path, train_split = 0.9, example_count = 'all'):
     mndata = MNIST(directory_path)
     img, labels_true = mndata.load_training()
+    if example_count != 'all':
+        img = img[:example_count]
+        labels_true = labels_true[:example_count]
 
     test_count = int(train_split * len(img))
 
@@ -141,10 +144,12 @@ def test_mnist_subset(directory_path, train_split = 0.9):
     y_train_pred = net.process_points(x_train, True)
     y_test_pred = net.process_points(x_test, False)
 
+    show_cms(y_train, y_train_pred, y_test, y_test_pred)
+
     print(f'Train accuracy: {cluster_acc(y_train, y_train_pred)}')
     print(f'Test accuracy: {cluster_acc(y_test, y_test_pred)}')
-    show_confusion_matrix(y_train, y_train_pred)
-    show_confusion_matrix(y_test, y_test_pred)
+    # show_confusion_matrix(y_train, y_train_pred)
+    # show_confusion_matrix(y_test, y_test_pred)
 
     clusters = []
     f, axarr = plt.subplots(L2_size//5,5)

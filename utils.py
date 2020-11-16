@@ -38,3 +38,21 @@ def show_confusion_matrix(y_true, y_pred):
     plt.figure(figsize = (10,7))
     sn.heatmap(df_cm, annot=True, fmt='d')
     plt.show()
+
+def show_cms(train_true, train_pred, test_true, test_pred):
+    train_true = np.array(train_true)
+    train_pred = np.array(train_pred)
+    test_true = np.array(test_true)
+    test_pred = np.array(test_pred)
+    cm_test = confusion_matrix(test_true, test_pred)    
+    cm_train = confusion_matrix(train_true, train_pred)
+    fig, axs = plt.subplots(ncols=2)
+    sn.heatmap(pd.DataFrame(cm_train), annot=True, fmt='d', ax = axs[0])
+    sn.heatmap(pd.DataFrame(cm_test), annot=True, fmt='d', ax = axs[1])
+    axs[0].set_title('Train dataset clustering')
+    axs[1].set_title('Test dataset clustering')
+    for ax in axs:
+        ax.xaxis.set_ticklabels([])
+        ax.set_xlabel('Assigned cluster')
+        ax.set_ylabel('True cluster')
+    plt.show()
