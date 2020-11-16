@@ -69,7 +69,7 @@ def simple_test_hexagon(directory_path, train_split = 0.9):
     # art2 = Art2(L1_size, L2_size, d = 0.9, c = 0.1, rho = 0.9)
     # art2.train(img[:10000], epochs = 1)
 
-    net = Art2Network(L1_size, L2_size, 0.9)
+    net = Art2Network(L1_size, L2_size, 0.99)
     y_train_pred = net.process_points(x_train, True)
 
     y_test_pred = net.process_points(x_test, False)
@@ -141,7 +141,9 @@ def test_mnist_subset(directory_path, train_split = 0.9):
     y_train_pred = net.process_points(x_train, True)
     y_test_pred = net.process_points(x_test, False)
 
-    print(f'Accuracy: {cluster_acc(y_train, y_train_pred)}')
+    print(f'Train accuracy: {cluster_acc(y_train, y_train_pred)}')
+    print(f'Test accuracy: {cluster_acc(y_test, y_test_pred)}')
+    show_confusion_matrix(y_train, y_train_pred)
     show_confusion_matrix(y_test, y_test_pred)
 
     clusters = []
@@ -166,7 +168,7 @@ def test_human(directory_path):
     # art2 = Art2(L1_size, L2_size, d = 0.9, c = 0.1, rho = 0.9)
     # art2.train(img[:10000], epochs = 1)
 
-    net = Art2Network(L1_size, L2_size, 0.9)
+    net = Art2Network(L1_size, L2_size, 0.95)
     y_train_pred = net.process_points(x_train, True)
 
     y_test_pred = net.process_points(x_test, False)
