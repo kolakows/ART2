@@ -1,5 +1,4 @@
 from mnist import MNIST
-from net import Art2
 from art2 import Art2Network 
 import matplotlib.pyplot as plt
 from utils import *
