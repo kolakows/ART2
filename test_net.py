@@ -2,9 +2,12 @@ from mnist import MNIST
 from net import Art2
 from art2 import Art2Network 
 import matplotlib.pyplot as plt
-from utils import cluster_acc, show_confusion_matrix, show_cms
+from utils import *
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
+
+
 
 def simple_test_cube(directory_path, train_split = 0.9):
     data = pd.read_csv(f'{directory_path}/cube.csv').to_numpy()
@@ -30,6 +33,8 @@ def simple_test_cube(directory_path, train_split = 0.9):
     print(f'Test accuracy: {cluster_acc(y_test, y_test_pred)}')
     show_confusion_matrix(y_test, y_test_pred)
 
+    Plot3dData(x_train, y_train_pred, net, y_train, 'Simple cube')
+
 def simple_test_cube_not_matching(directory_path):
     data = pd.read_csv(f'{directory_path}/cube.csv').to_numpy()
     data_not_matching = pd.read_csv(f'{directory_path}/cube-notmatching.csv').to_numpy()
@@ -52,6 +57,8 @@ def simple_test_cube_not_matching(directory_path):
     print(f'Train accuracy: {cluster_acc(y_train, y_train_pred)}')
     print(f'Test accuracy: {cluster_acc(y_test, y_test_pred)}')
     show_confusion_matrix(y_test, y_test_pred)
+
+    Plot3dData(x_test, y_test_pred, net, y_test, 'cube-notmaching')
 
 def simple_test_hexagon(directory_path, train_split = 0.9):
     data = pd.read_csv(f'{directory_path}/hexagon.csv').to_numpy()
@@ -76,6 +83,8 @@ def simple_test_hexagon(directory_path, train_split = 0.9):
     print(f'Train accuracy: {cluster_acc(y_train, y_train_pred)}')
     print(f'Test accuracy: {cluster_acc(y_test, y_test_pred)}')
     show_confusion_matrix(y_test, y_test_pred)
+
+    plot_hex(x_train, y_train_pred, net, y_train)
 
 def test_mnist(directory_path, train_split = 0.9):
     mndata = MNIST(directory_path)

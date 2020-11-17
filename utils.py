@@ -5,6 +5,8 @@ from sklearn.metrics import confusion_matrix
 import seaborn as sn
 import pandas as pd
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+from numpy import linalg as LA
 
 def norm(v1):
     return sqrt(np.sum(np.power(v1, 2)))
@@ -55,4 +57,53 @@ def show_cms(train_true, train_pred, test_true, test_pred):
         ax.xaxis.set_ticklabels([])
         ax.set_xlabel('Assigned cluster')
         ax.set_ylabel('True cluster')
+    plt.show()
+
+def Plot3dData(x_train, y_train_pred, net, y_train, title):
+    reps = []
+    for i in range(net.capacity):
+        v = net.get_cluster_exemplar(i)
+        reps.append(v/LA.norm(v))
+    reps = pd.DataFrame(reps)
+
+    x_t = pd.DataFrame(x_train)
+    y_t = np.array(y_train)
+    y_t_pred = np.array(y_train_pred).astype(int)
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    #ax.scatter(x_t[0],x_t[1], x_t[2], c = y_t.astype(int), s=40, marker = 'o', depthshade = False)
+    ax.scatter(x_t[0],x_t[1], x_t[2], c = y_t_pred.astype(int), s=40, marker = 'o', depthshade = True)
+    
+    ax.scatter(reps[0],reps[1], reps[2], c = range(net.capacity), s=60, marker = '^', depthshade = False)  
+    ax.set_title(title)
+    plt.show()
+
+
+def plot_hex(x_train, y_train_pred, net, y_train):
+
+    reps = []
+    for i in range(net.capacity):
+        v = net.get_cluster_exemplar(i)
+        reps.append(v/LA.norm(v))
+    reps = pd.DataFrame(reps)
+
+    x_t = pd.DataFrame(x_train)
+    y_t = np.array(y_train)
+    y_t_pred = np.array(y_train_pred).astype(int)
+    #sn.scatterplot(x = x_t[0],y = x_t[1], hue = y_t.astype(int))
+    #sn.set_palette('hls')
+    #pal = sn.color_palette('hls')
+    x_t['pred'] = y_t_pred
+    x_t['pred'] = x_t['pred'].astype('category')
+    x_t.columns = ['0','1','pred']
+    reps['pred'] = np.arange(len(reps))
+    reps['pred'] = reps['pred'].astype('category')
+    reps.columns = ['0','1','pred']
+
+    sn.scatterplot(x = '0',y = '1', hue = 'pred', data = x_t) 
+    ax = sn.scatterplot(x = '0',y = '1', s = 100, hue = 'pred', data = reps, marker = '^')
+    ax.get_legend().remove()
+    ax.set_title('Hexagon')
+    ax.set_xlabel('')
+    ax.set_ylabel('')
     plt.show()
